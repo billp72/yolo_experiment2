@@ -1,0 +1,13 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-header bar-assertive custom-color-blue">
+        <h1 class="title">Delete Group</h1>
+        <button class="button button-clear button-primary" ng-click="modalGrp.hide()">Cancel</button>
+    </ion-header-bar>
+    <ion-content class="padding">
+        <div class="list">
+            This will permanently remove the group and all questions within.<br /><br/>
+            Are you sure?
+            <button class="button button-full button-assertive" ng-click="removeGroup()">Delete</button>
+        </div>
+    </ion-content>
+</ion-modal-view>

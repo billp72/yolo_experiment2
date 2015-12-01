@@ -1,0 +1,49 @@
+<ion-view view-title="Groups for {{title1}}">
+<ion-nav-title>
+           Groups for {{title1}}
+        </ion-nav-title>
+    <ion-content>
+        <ion-list ng-show="rooms" class="display-text">
+          <div class="item item-input item-select">
+           <select ng-model="user.group" ng-options="select.groupName for select in data.list" ng-change="update(user.group)">
+                </select>
+           </div>
+            <ion-item class="item-icon-left opaque" ng-repeat="room in rooms | reverse:room.total:room.limit" type="item-text-wrap" ng-click="openChatRoom(room.question, room.$id, room.groupID, room.organizerUserID, room.displayName, room.avatar, room.total, room.limit)">
+                <i class="icon {{room.icon}}"></i>
+                <h2>{{room.question}}</h2>
+                <h4 class="displayname" ng-show="room.total < room.limit"><span>open | limit {{room.limit}} |</span> {{room.displayName}}</h4>
+                <h4 class="displayname" ng-show="room.total == room.limit"><span>closed |</span> {{room.displayName}}</h4>
+                 <span am-time-ago="room.createdAt" class="item-events"></span>
+            </ion-item>
+            <ion-item class="textCenter" ng-model="message">You have {{rooms.length}} group(s)</ion-item> 
+        </ion-list>
+    </ion-content>
+    <div class="float-button1" style="
+          background-color:#2690ad;
+          opacity: 0.9;
+          color: white;
+          border-radius: 50%;
+          width: 30px;
+          padding: 25px;
+          font-size: 40px;
+          position: fixed;
+          bottom: 5%;
+          right: 5%;
+          z-index: 1000;
+          ">
+        <span class="height-fix1" ng-click="askQuestion()">
+            <a class="content" style="
+                position: absolute;
+                left: 0;
+                top: 70%;
+                height: 100%;
+                width: 100%;
+                text-align: center;
+                margin-top: -20px;
+                color: white;
+            ">
+                <i class="ion-ios-arrow-up">+</i>
+            </a>
+         </span>
+    </div>
+</ion-view>

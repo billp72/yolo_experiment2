@@ -1,0 +1,30 @@
+<!--
+Create tabs with an icon and label, using the tabs-positive style.
+Each tab's child <ion-nav-view> directive will have its own
+navigation history that also transitions its views in and out.
+-->
+
+<ion-tabs class="tabs-icon-top tabs-color-active-positive">
+ <!-- Rooms List Tab -->
+    <ion-tab title="Groups" on-select="tabSelected('events')" icon-off="ion-ios7-box-outline" icon-on="ion-ios7-box" href="#/menu/tab/studentrooms">
+        <ion-nav-view name="tab-student"></ion-nav-view>
+    </ion-tab>
+<!-- Current Selected Chat Tab -->
+    <ion-tab title="Conversations" on-select="tabSelected('conversations')" icon-off="ion-ios7-chatboxes-outline" icon-on="ion-ios7-chatboxes" href="#/menu/tab/conversations">
+        <ion-nav-view name="tab-converse"></ion-nav-view>
+    </ion-tab>
+<!-- Logout Button -->
+    <ion-tab title="Members" on-select="tabSelected('settings')" icon-off="ion-ios7-gear-outline" icon-on="ion-ios7-gear" href="#/menu/tab/settingsMentor">
+        <ion-nav-view name="tab-settingsMentor"></ion-nav-view>
+    </ion-tab>
+<!-- Current Selected Chat Tab - hidden -->
+    <ion-tab title="Conversation" on-select="tabSelected('chatprivate')" href="#/menu/tab/chat" hidden="true">
+        <ion-nav-view name="tab-chat"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="Conversation" on-select="tabSelected('chatpublic')" href="#/menu/tab/publicchat" hidden="true">
+        <ion-nav-view name="tab-privatechat"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="Create" on-select="tabSelected('ask')" href="#/menu/tab/ask" hidden="true">
+        <ion-nav-view name="tab-ask"></ion-nav-view>
+    </ion-tab>
+</ion-tabs>

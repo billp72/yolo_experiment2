@@ -1,0 +1,16 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-header bar-positive custom-color-blue">
+        <h1 class="title">Forgot Password</h1>
+        <button class="button button-clear button-primary custom-color-blue" ng-click="modal2.hide()">Cancel</button>
+    </ion-header-bar>
+    <ion-content class="padding">
+        <div class="list">
+            <label class="item item-input">
+                <span class="input-label">Enter Email Address</span>
+                <input ng-model="enter.email" type="text">
+            </label>
+            <button class="button button-full button-positive custom-color-blue" ng-click="forgotPassReset(enter)">Send</button>
+        </div>
+        <div style="color:blue;" ng-model="errors">{{errors}}</div>
+    </ion-content>
+</ion-modal-view>

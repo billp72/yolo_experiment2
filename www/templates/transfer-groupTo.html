@@ -1,0 +1,16 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-header bar-assertive">
+        <h1 class="title">Transfer Ownership</h1>
+        <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+    </ion-header-bar>
+    <ion-content class="padding">
+        <div class="list">
+            <div class="avatar"><img width="50" ng-src="{{transferAvatar}}"><br />
+            {{transferDisplayName}}
+            </div>
+            Warning! This action will transfer the ownership of this group
+            <br /><br/><br />
+            <button class="button button-full button-assertive" ng-click="transferGroup()">Transfer</button>
+        </div>
+    </ion-content>
+</ion-modal-view>

@@ -1,0 +1,48 @@
+<ion-view id="userMessagesView" view-title="{{roomName}}">
+    <ion-nav-title>
+           {{roomName}}
+        </ion-nav-title>
+    <ion-content has-bouncing="true" class="has-header has-footer" delegate-handle="userMessageScroll">
+        <ion-list ng-show="roomName">
+            <ion-item class="special-text">
+                <div class="avatar"><img width="50" ng-src="{{avatar}}"></div>
+                <pre>{{question}}</pre>
+                <ion-option-button ng-show="wrap1" class="button-assertive" ng-click="wrap('remove-conversation')">
+                    wrap
+                </ion-option-button>
+                <ion-option-button ng-show="unjoin1" class="button-assertive" ng-click="wrap('unjoin-group')">
+                    unjoin
+                </ion-option-button>
+            </ion-item>
+            <ion-item ng-if="chats.length == 0" class="textCenter">
+                <h4>No messages in this room. Send message to start.</h4>
+            </ion-item>
+            <!--'createdAt':true-->
+            <ion-item ng-repeat="chat in chats | orderBy:reverse" type="item-text-wrap">
+                <div ng-click="wrap('eject-user', chat)" class="avatar"><img width="50" ng-src="{{chat.avatar}}">
+                    <h4 class="advisors">{{chat.from}}</h4>
+                </div>
+                <span am-time-ago="chat.createdAt" class="item-note">
+                </span>
+                <pre my-links links="chat"></pre>
+                <ion-option-button ng-show="remove1" class="button-assertive" ng-click="remove(chat, $index)">
+                    Delete
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
+        <ion-list ng-hide="roomName">
+            <ion-item class="textCenter">
+                <h4>Please select a room to chat first.</h4>
+            </ion-item>
+        </ion-list>
+
+    </ion-content> 
+    <ion-footer-bar>
+        <label class="item-input-wrapper nobgcolor">
+            <input type="text" ng-model="IM.textMessage" placeholder="Respond to group...">
+        </label>
+            <button ng-click="sendMessage(IM.textMessage)" class="button button-small button-balanced custom-color-blue">
+                Send
+        </button>
+    </ion-footer-bar> 
+</ion-view>

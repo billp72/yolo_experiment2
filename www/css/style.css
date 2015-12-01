@@ -1,0 +1,191 @@
+.logo {
+    display: block;
+    position: relative;
+    width: 60%;
+    margin: 90px auto 20px auto;
+}
+/*.logoText {
+    text-align: center;
+    font-size: 28px;
+    font-family: Verdana, Geneva, sans-seriff;
+    color: #fafafa;
+    margin-top: 10px;
+}*/
+.custom-color-blue {
+    background: #2690ad !important;
+    border:none;
+}
+.tab-item.tab-item-active, .tab-item.active, .tab-item.activated {
+    color: #2690ad !important;
+}
+.item-icon-left.opaque{
+    background: rgba(255, 255, 255, 1);
+}
+.button.button-clear.button-primary.text{
+    color: #2690ad;
+}
+.button.button-full.button-light.button-white.txt{
+    color: #2690ad;
+    font-size: 20px;
+}
+.avatar {
+    float: left;
+    margin-right: 3%;
+}
+.avatar img {
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+}
+div.item-select select {
+    -moz-appearance: none;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    padding: 0px 42% 0px 0px;
+    max-width: 100%;
+    border: medium none;
+    background: #FFF none repeat scroll 0% 0%;
+    color: #333;
+    text-indent: 0.01px;
+    text-overflow: "";
+    white-space: nowrap;
+    font-size: 14px;
+    cursor: pointer;
+    direction: rtl;
+}
+div.item-select.settings select {
+    -moz-appearance: none;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    padding: 0px 0% 0px -100%;
+    max-width: 100%;
+    border: medium none;
+    background: #FFF none repeat scroll 0% 0%;
+    color: #333;
+    text-indent: 0.01px;
+    text-overflow: "";
+    white-space: nowrap;
+    font-size: 14px;
+    cursor: pointer;
+    direction: rtl;
+}
+div.item-select {
+    padding: 10px 0 20px 0 !important;
+}
+.item-note {
+    font-size: 10px;
+    margin-top: 0px;
+    margin-right: -35px;
+}
+.item-events {
+    float: right;
+    color: #aaa;
+    font-size: 11px;
+    margin-top: -22px;
+}
+.textCenter {
+    text-align: center;
+}
+#comment-textarea{
+    height:100px;
+    margin: 0;
+}
+.started-conversation {
+    color:#135dda;
+    font-weight: 900;
+}
+.special-text{
+    color: #2690ad;
+}
+.transparent{
+    background-color: transparent;
+}
+.center{
+    margin:10% 0 10% 0;
+}
+.bar { background-image: none !important; }
+h1 {
+    text-align: center;
+}
+.hompageTxtTop{
+    color: #2667d6;
+    font-size: 400%;
+}
+/*#273958*/
+.hompageTxtBottom{
+    color: #2f4468;
+    font-size: 400%;
+}
+.button-white{
+    background-color: white;
+}
+.header_txt{
+    color: white;
+}
+input.input-bg{
+    background-color: #fafafa;
+}
+label.input-bg{
+    background-color: #fafafa;
+}
+p.space{
+    margin: 10px 0 10px 0;
+}
+.advisors{
+    color:#2690ad;
+}
+pre{
+    font-family: arial sans-seriff;
+    font-size: .95em;
+}
+.item-input-wrapper.nobgcolor{
+    background: none !important;
+}
+.displayname{
+    color:#a8a8a8;
+}
+h4.hometxt{
+    font-family: Arial 'Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+    color: #c2d8ff; 
+    text-align:center;
+    font-style:italic;
+}
+#schoolemail:focus{
+    background-color: #FFEFDB;
+};
+
+/* floating material button classes */
+/*.float-button1 {
+    background-color:#303f9f;
+    opacity: 0.9;
+    color: white;
+    border-radius: 50%;
+    border-radius:15% 0 0 0;
+    width: 30px;
+    padding: 25px;
+    font-size: 40px;
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+    z-index: 2000;
+}
+
+.float-button1 .height_fix1 {
+    margin-top: 100%;
+    border: 1px solid red;
+}
+ 
+.float-button1 .content {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    margin-top: -20px;
+    color: white;
+}*/

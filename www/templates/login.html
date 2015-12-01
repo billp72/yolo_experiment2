@@ -1,0 +1,21 @@
+<ion-view hide-nav-bar="true" class="padding bgcolor">
+<ion-header-bar class="transparent">
+    <button class="button button-clear button-primary text" ng-click="about()">
+      About
+    </button>
+    <button class="button button-clear button-primary text" ng-click="openSignIn()">
+      Log In
+    </button>
+</ion-header-bar>
+    <ion-content class="padding transparent">
+     <ion-list>
+        <img src="img/yolo.png" class="logo"><br />
+        <h4 class="hometxt">Find people that share your interests</h4>
+      </ion-list>
+        <div class="list center">
+            <button ng-click="openModal('student_signup')" class="button button-full button-light button-white txt">
+                sign up
+            </button>
+        </div>
+    </ion-content>
+</ion-view>

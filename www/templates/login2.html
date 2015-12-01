@@ -1,0 +1,27 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-header bar-positive custom-color-blue">
+        <h1 class="title">Login</h1>
+        <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+    </ion-header-bar>
+    <ion-content class="padding">
+        <div class="list">
+            <label class="item item-input input-bg">
+                <span class="input-label">Email</span>
+                <input type="text" ng-model="user.email" class="input-bg">
+            </label>
+            <p class="space"></p>
+            <label class="item item-input input-bg">
+                <span class="input-label">Password</span>
+                <input type="password" ng-model="user.pwdForLogin" class="input-bg">
+            </label>
+            <button ng-click="signIn(user)" class="button button-block button-light activated">
+                Sign In
+            </button>
+          <div class="list" style="text-align:center">
+            <button ng-click="forgotPass()" class="button button-full button-light button-white">
+                Forgot password
+            </button>
+        </div>
+        </div>
+    </ion-content>
+</ion-modal-view>
