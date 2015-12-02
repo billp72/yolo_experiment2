@@ -311,6 +311,9 @@ settings cntrl
 
             });
         }
+        $scope.members = [];
+        $scope.enter = true;
+
     });
 
     $scope.update = function (data){
@@ -330,6 +333,7 @@ settings cntrl
         }
       //this is the group key of the original owner of the group. Need tp remove their organizerUserID
         if(!!val){
+            $scope.enter = false;
             $scope.school = Rooms.getMembersArray({
                 'publicQuestionKey':val.publicQuestionKey, 
                 'schoolID': $scope.schoolID,
@@ -343,13 +347,13 @@ settings cntrl
             $scope.removed.$loaded(function (arr){
                 if(!!arr)
                     $scope.currentMembers = arr.length;
-            })
-            $scope.total = Rooms.getTotal({
+            });
+            $scope.limit = Rooms.getLimit({
                 'publicQuestionKey':val.publicQuestionKey, 
                 'schoolID': $scope.schoolID,
                 'groupID': val.groupID
             });
-            $scope.limit = Rooms.getLimit({
+            $scope.memberFlag = Rooms.getMemberFlag({
                 'publicQuestionKey':val.publicQuestionKey, 
                 'schoolID': $scope.schoolID,
                 'groupID': val.groupID
@@ -747,11 +751,18 @@ settings cntrl
 //unjoin event
     $scope.unjoinme = function (){
           $ionicLoading.show();
+          Rooms.getMemberQuota({
+            'schoolID':$scope.schoolID, 
+            'publicQuestionKey':publicQuestionKey, 
+            'groupID': group
+          }, function(bool){
+   
           var val = PublicChat.unjoin({ 
                 schoolID: $scope.schoolID, 
                 publicQuestionKey: publicQuestionKey,  
                 groupID: group,
-                userID: $scope.userID
+                userID: $scope.userID,
+                quota: bool
             },function(val){
                 if(!val){
                     $ionicLoading.hide();
@@ -764,11 +775,17 @@ settings cntrl
                     alert(val);
                 }
             });
+        });
     }
     $scope.ejectuser = function (msg){
         if($scope.wrap1){
             if($scope.ejectuserID !== $scope.userID){
                 $ionicLoading.show();
+          Rooms.getMemberQuota({
+            'schoolID':$scope.schoolID, 
+            'publicQuestionKey':publicQuestionKey, 
+            'groupID': group
+          }, function(bool){
 
             var val = PublicChat.eject({ 
                 schoolID: $scope.schoolID, 
@@ -777,7 +794,8 @@ settings cntrl
                 message: msg.reason.value,
                 email: $scope.ejectEmail,
                 userID: $scope.ejectuserID,
-                groupName: $scope.question
+                groupName: $scope.question,
+                quota: bool
             },function(val){
                 if(!val){
                     $scope.modal.hide();
@@ -789,6 +807,7 @@ settings cntrl
                 }
                 $ionicLoading.hide();
             });
+         });
            }else{
                 alert('To remove yourself, transfer ownership and unjoin.');
            }
@@ -990,8 +1009,8 @@ settings cntrl
 /*the prospect can ask a question
 *
 */
-.controller('AskCtrl', ['$scope', '$state', 'Users', 'Rooms', 'orderAlphanumeric', 'stripDot', '$ionicLoading', 'Questions',
-    function ($scope, $state, Users, Rooms, orderAlphanumeric, stripDot, $ionicLoading, Questions){
+.controller('AskCtrl', ['$scope', '$state', 'Users', 'Rooms', 'orderAlphanumeric', 'stripDot', '$ionicLoading',
+    function ($scope, $state, Users, Rooms, orderAlphanumeric, stripDot, $ionicLoading){
     var icon='',
         grpID,
         grpName,
@@ -1062,7 +1081,7 @@ settings cntrl
                                 displayName: $scope.displayName, 
                                 email: $scope.email,
                                 limit:parseInt(quest.limit, 10),
-                                total:0, 
+                                memberFlag: 'open', 
                                 groupID: grpID, 
                                 groupName: grpName,  
                                 avatar: Users.getIDS('avatar') 
@@ -1101,10 +1120,6 @@ settings cntrl
                         });
                     
 
-                    Questions.save({
-                        question: quest.question.value,
-                        school: $scope.schoolID
-                    }); 
                     /*if(grpID !== 'gen'){
                        var keys = Users.getGroupKeys().
                             then(function(data){

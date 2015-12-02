@@ -160,6 +160,20 @@ angular.module('mychat.services', ['firebase'])
                                                     var ejected = ref.child(params.schoolID).child('questions').child(params.groupID)
                                                         .child(params.publicQuestionKey).child('ejected').child(params.userID);
                                                             ejected.set({userID: params.userID}, callback);
+
+                                                    if(params.quota){
+                                                        ref.child(params.schoolID).child('questions').child(params.groupID)
+                                                            .child(params.publicQuestionKey)
+                                                                .update({'memberFlag':'allow'});
+
+                                                    }else{
+                                                        ref.child(params.schoolID).child('questions').child(params.groupID).child(params.publicQuestionKey).child('total').transaction(function(currentVal){
+                                                            if(!!currentVal){
+                                                                return currentVal-1;
+                                                            }
+                    
+                                                        });
+                                                    }
                                                    
                                                 }
 
@@ -193,6 +207,19 @@ angular.module('mychat.services', ['firebase'])
                                             if(err){
                                                 cb('there was an error removing you' + err);
                                             }else{
+                                                if(params.quota){
+                                                        ref.child(params.schoolID).child('questions').child(params.groupID)
+                                                            .child(params.publicQuestionKey)
+                                                                .update({'memberFlag':'allow'});
+                                                        
+                                                }else{
+                                                        ref.child(params.schoolID).child('questions').child(params.groupID).child(params.publicQuestionKey).child('total').transaction(function(currentVal){
+                                                            if(!!currentVal){
+                                                                return currentVal-1;
+                                                            }
+                    
+                                                        });
+                                                }
                                                 cb(false);
                                                 
                                             }
@@ -248,6 +275,7 @@ angular.module('mychat.services', ['firebase'])
     // Might use a resource here that returns a JSON array
     var ref = new Firebase(firebaseUrl+'/schools');
     var rooms = $firebase(ref).$asArray();
+    var increment=0;
     //$firebase(ref.child('schools').child(selectedRoomID).child('chats')).$asArray();
     return {
         all: function () {
@@ -281,6 +309,7 @@ angular.module('mychat.services', ['firebase'])
                 groupID: params.groupID,
                 limit: params.limit,
                 avatar: params.avatar,
+                memberFlag: params.memberFlag,
                 createdAt: Firebase.ServerValue.TIMESTAMP
             }
         
@@ -311,7 +340,19 @@ angular.module('mychat.services', ['firebase'])
                             .child('members')).$asArray();
 
          },
-         
+         getMemberFlag: function (params){
+            return $firebase(ref.child(params.schoolID).child('questions')
+                        .child(params.groupID).child(params.publicQuestionKey)
+                            .child('memberFlag')).$asObject();
+         },
+         getMemberQuota: function(params, cb){
+            var _this = this;
+            this.getLimit(params).$loaded(function(limit){
+                _this.getTotal(params).$loaded(function(total){
+                        cb(total.$value === limit.$value);
+                })
+            })
+         },
         getLimit: function (params){
             return $firebase(ref.child(params.schoolID).child('questions')
                         .child(params.groupID).child(params.publicQuestionKey)
@@ -338,24 +379,34 @@ angular.module('mychat.services', ['firebase'])
                 })
         },
         reduceAsmember: function (params, cb){
+            var _this = this;
              ref.child(params.schoolID).child('questions').child(params.groupID).child(params.publicQuestionKey).child('total').transaction(function(currentVal){
 
-                            var num = (params.currentMembers);
-                            var total = params.limit.$value - num;
+                            if(currentVal === params.currentMembers+1){
+                                cb('Group accepting all members');
+                                _this.updateMemberStatus(params);
 
-                            if(!!currentVal && currentVal > 1){
-                                cb('group is open to accepting '+ total + 'member(s)');
                                 return currentVal-1;
-                            }else{
-                                
-                                cb('Group is currently open to accepting '+ total +' new member(s)');
-                                
+                            }
+        
+                            if(!!currentVal && currentVal > params.currentMembers){
+                                var ret = currentVal-1;
+                                    increment =+1
+                                cb('group is now open to accepting '+ increment + ' member(s)');
+
+                                return ret;
+
                             }
                     
                         });
         },
         countTotalMembers: function (params){
             return $firebase(ref.child(params.schoolID).child('questions').child(params.groupID).child(params.publicQuestionKey).child('members')).$asArray();
+        },
+        updateMemberStatus: function (params){
+            ref.child(params.schoolID).child('questions').child(params.groupID)
+                .child(params.publicQuestionKey)
+                    .update({'memberFlag':'open'});
         }
     }
 }])
@@ -599,20 +650,7 @@ angular.module('mychat.services', ['firebase'])
     }
   }
 }])
-.factory('Questions', ['$firebase', function($firebase){
-    var ref = new Firebase(firebaseUrl+'/questions');
-    var questions = $firebase(ref).$asArray();
-    return {
-        save: function (question){
-            questions.$add(
-                {
-                    'question': question.question,
-                    'school': question.school
-                }
-            );
-        }
-    }
-}])
+
 .service('ConnectionCheck', ['$http', '$timeout', '$firebase', ConnectionCheck])
 .service('RequestsService', ['$http', '$q', '$ionicLoading',  RequestsService]);
 
