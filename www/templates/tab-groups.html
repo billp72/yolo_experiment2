@@ -11,6 +11,7 @@
        <br />
         <div class="list" model="currentMembers">
           <div ng-if="memberFlag.$value === 'allow'">
+            Click to allow one new member to join, a total of <span ng-if="currentMembers === limit">{{limit}}</span><span if-ng="currentMember < limit">{{limit - currentMember}}</span>
           <button ng-hide="enter" ng-model="addOne" class="button button-full button-positive custom-color-blue" ng-click="reduceAndMakePublic(currentMembers)">Allow a new member</button>
           </div>
           <div class="item item-input item-select settings">
