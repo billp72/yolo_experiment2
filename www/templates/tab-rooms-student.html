@@ -11,7 +11,7 @@
             <ion-item class="item-icon-left opaque" ng-repeat="room in rooms | reverse:room.total:room.limit" type="item-text-wrap" ng-click="openChatRoom(room.question, room.$id, room.groupID, room.organizerUserID, room.displayName, room.avatar, room.total, room.limit)">
                 <i class="icon {{room.icon}}"></i>
                 <h2>{{room.question}}</h2>
-                <h4 class="displayname" ng-show="room.total < room.limit"><span>open | limit {{room.limit}} |</span> {{room.displayName}}</h4>
+                <h4 class="displayname" ng-show="room.total < room.limit"><span>allow {{room.limit - room.total}} | limit {{room.limit}} |</span> {{room.displayName}}</h4>
                 <h4 class="displayname" ng-show="room.total == room.limit"><span>closed |</span> {{room.displayName}}</h4>
                  <span am-time-ago="room.createdAt" class="item-events"></span>
             </ion-item>

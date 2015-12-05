@@ -120,9 +120,9 @@ angular.module('mychat.controllers', [])
         if (
             !!user && 
             !!user.schoolemail &&
-            !!user.displayname && 
-            !!user.schoolID &&
-            user.schoolID.domain === emailDomain(user.schoolemail)[0]
+            !!user.displayname.value && 
+            !!user.schoolID /*&&
+            user.schoolID.domain === emailDomain(user.schoolemail)[0]*/
              ) 
         {
         
@@ -137,7 +137,7 @@ angular.module('mychat.controllers', [])
                     alert("User created successfully!");
                     ref.child("users").child(userData.uid).set({
                         user:{
-                            displayName: user.displayname +'-'+ stripDot.shortRandom(),
+                            displayName: user.displayname.value +'-'+ stripDot.shortRandom(),
                             schoolID: stripDot.strip(user.schoolID.domain),
                             schoolEmail: user.schoolemail
                         }
