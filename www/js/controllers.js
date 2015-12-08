@@ -734,7 +734,11 @@ settings cntrl
     }
     
     $scope.saveEdit = function (question){
-    
+        if(question.amount <= 14){
+            alert('must be at least characters');
+
+            return;
+        }
         PublicChat.editGroup({
             'question': question.value,
             'schoolID': $scope.schoolID,
@@ -743,8 +747,8 @@ settings cntrl
             'publicQuestionKey': publicQuestionKey,
             'userGroupKey': selfKey
         });
-
         $scope.editorEnabled = false;
+        
     }
 //removes a single chat message
     $scope.remove = function (chat, index) {
