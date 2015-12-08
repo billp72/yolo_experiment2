@@ -700,8 +700,11 @@ settings cntrl
         txtInput[0].focus();
       });
     }
-        $scope.avatar   = $state.params.avatar;
-        $scope.question = $state.params.question;
+    $scope.typ = function (obj){
+        return typeof obj === 'string';
+    }
+    $scope.avatar   = $state.params.avatar;
+    $scope.question = $state.params.question;
 
     PublicChat.selectRoom($scope.schoolID, publicQuestionKey, group);
 
@@ -724,8 +727,13 @@ settings cntrl
             },true);
         }
     });
+    $scope.editorEnabled = false;
 
-    $scope.edit = function (question){
+    $scope.edit = function (){
+        $scope.editorEnabled = true;
+    }
+    
+    $scope.saveEdit = function (question){
     
         PublicChat.editGroup({
             'question': question.value,
@@ -734,10 +742,9 @@ settings cntrl
             'userID': $scope.userID,
             'publicQuestionKey': publicQuestionKey,
             'userGroupKey': selfKey
-        }, function(){
-            $scope.editorEnabled = false;
         });
-        
+
+        $scope.editorEnabled = false;
     }
 //removes a single chat message
     $scope.remove = function (chat, index) {

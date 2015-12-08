@@ -7,14 +7,15 @@
             <ion-item class="special-text">
                 <div class="avatar"><img width="50" ng-src="{{avatar}}"></div>
                 <div ng-hide="editorEnabled">
-                    <pre>{{question}}</pre>
-                    <button ng-show="wrap1" style="display:block; margin-top:5px;" ng-click="editorEnabled=!editorEnabled" class="button button-small button-balanced custom-color-blue">
+                    <pre ng-hide="typ(question)">{{question.value}}</pre>
+                    <pre ng-show="typ(question)">{{question}}</pre>
+                    <button ng-show="wrap1" style="display:block; margin-top:5px;" ng-click="edit()" class="button button-small button-balanced custom-color-blue">
                         Edit
                     </button>
                 </div>
                 <div ng-show="editorEnabled">
                     <textarea style="display:inline; border:1px solid #2690ad; width:90%" my-maxlength="120" class="no-resize" ng-model="question"></textarea>
-                    <button style="display:block; margin-top:5px;" ng-click="edit(question)" class="button button-small button-balanced custom-color-blue">
+                    <button style="display:block; margin-top:5px;" ng-click="saveEdit(question)" class="button button-small button-balanced custom-color-blue">
                         Save
                     </button>
                 </div>
