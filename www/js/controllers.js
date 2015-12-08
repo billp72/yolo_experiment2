@@ -509,7 +509,8 @@ settings cntrl
       txtInput.one('blur', function() {
         txtInput[0].focus();
       });
-    }
+    }   
+       
         $scope.roomName = 'Just enter message to become a member.'
         $scope.avatar   = $state.params.avatar;
         $scope.question = $state.params.question;
@@ -660,6 +661,7 @@ settings cntrl
         group                = $state.params.group,
         groupName            = $state.params.groupName,
         wrap                 = $state.params.wrap,
+        selfKey              = $state.params.selfKey,
         txtInput;
 
     $scope.remove1 = true;
@@ -698,7 +700,6 @@ settings cntrl
         txtInput[0].focus();
       });
     }
-        
         $scope.avatar   = $state.params.avatar;
         $scope.question = $state.params.question;
 
@@ -723,6 +724,21 @@ settings cntrl
             },true);
         }
     });
+
+    $scope.edit = function (question){
+    
+        PublicChat.editGroup({
+            'question': question.value,
+            'schoolID': $scope.schoolID,
+            'groupID': group,
+            'userID': $scope.userID,
+            'publicQuestionKey': publicQuestionKey,
+            'userGroupKey': selfKey
+        }, function(){
+            $scope.editorEnabled = false;
+        });
+        
+    }
 //removes a single chat message
     $scope.remove = function (chat, index) {
         PublicChat.remove(chat);
@@ -887,7 +903,7 @@ settings cntrl
         $state.go('menu.tab.ask');
     }
     $scope.openChatRoom = function (question, selfKey, groupID, groupName, publicQuestionKey, organizerUserID, avatar) {
-
+        
         if($scope.userID === organizerUserID){
             $state.transitionTo('menu.tab.privatechat', {
                 publicQuestionKey: publicQuestionKey,
@@ -895,7 +911,8 @@ settings cntrl
                 question: question,
                 group: groupID,
                 wrap: 'wrap',
-                avatar: avatar
+                avatar: avatar,
+                selfKey: selfKey
             },{reload: true, inherit: true, notify: true });
             Users.toggleQuestionBackAfterClick($scope.userID, selfKey);
         }else{
@@ -905,7 +922,8 @@ settings cntrl
                 question: question,
                 group: groupID,
                 wrap: 'unjoin',
-                avatar: avatar
+                avatar: avatar,
+                selfKey: selfKey
             },{reload: true, inherit: true, notify: true });
             Users.toggleQuestionBackAfterClick($scope.userID, selfKey);
         }

@@ -47,6 +47,18 @@ angular.module('mychat.services', ['firebase'])
             }
             return null;
         },
+        editGroup: function (params, cb){
+            
+            var edit = ref.child(params.schoolID).child('questions').child(params.groupID).child(params.publicQuestionKey);
+                edit.update({'question':params.question}, function(){
+
+                     var editUserQuestion = Users.getRef().child(params.userID).child('questions').child(params.userGroupKey);
+                         editUserQuestion.update({'question':params.question}, function(){
+                             cb();
+                         })
+
+                });
+        },
         getSelectedRoomName: function (cb) {
             var selectedRoom;
             if (selectedRoomID && selectedRoomID != null) {

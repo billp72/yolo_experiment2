@@ -6,7 +6,18 @@
         <ion-list ng-show="roomName">
             <ion-item class="special-text">
                 <div class="avatar"><img width="50" ng-src="{{avatar}}"></div>
-                <pre>{{question}}</pre>
+                <div ng-hide="editorEnabled">
+                    <pre>{{question}}</pre>
+                    <button ng-show="wrap1" style="display:block; margin-top:5px;" ng-click="editorEnabled=!editorEnabled" class="button button-small button-balanced custom-color-blue">
+                        Edit
+                    </button>
+                </div>
+                <div ng-show="editorEnabled">
+                    <textarea style="display:inline; border:1px solid #2690ad; width:90%" my-maxlength="120" class="no-resize" ng-model="question"></textarea>
+                    <button style="display:block; margin-top:5px;" ng-click="edit(question)" class="button button-small button-balanced custom-color-blue">
+                        Save
+                    </button>
+                </div>
                 <ion-option-button ng-show="wrap1" class="button-assertive" ng-click="wrap('remove-conversation')">
                     wrap
                 </ion-option-button>

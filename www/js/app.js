@@ -31,7 +31,7 @@ function onDeviceReady() {
 // Registering onDeviceReady callback with deviceready event
 document.addEventListener("deviceready", onDeviceReady, false);
 
-angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mychat.controllers', 'mychat.services', 'mychat.directives', 'mychat.autocomplete', 'mychat.filters'])
+angular.module('mychat', ['ionic', 'ngIOS9UIWebViewPatch', 'firebase', 'angularMoment', 'mychat.controllers', 'mychat.services', 'mychat.directives', 'mychat.autocomplete', 'mychat.filters'])
 
     .run(function ($ionicPlatform, $rootScope, $location, Auth, $ionicLoading, $window, $state, $timeout, $ionicPopup, ConnectionCheck) {
 
@@ -200,7 +200,7 @@ function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
         }
     })
         .state('menu.tab.privatechat', {
-        url: '/chat/:publicQuestionKey/:groupName/:question/:group/:wrap/:avatar',
+        url: '/chat/:publicQuestionKey/:groupName/:question/:group/:wrap/:avatar/:selfKey',
         cache: false,
         views: {
             'tab-privatechat': {
