@@ -510,10 +510,16 @@ settings cntrl
         txtInput[0].focus();
       });
     }   
+
+    $scope.editorEnabled = false;
+    
+    $scope.typ = function (obj){
+        return typeof obj === 'string';
+    }
        
-        $scope.roomName = 'Just enter message to become a member.'
-        $scope.avatar   = $state.params.avatar;
-        $scope.question = $state.params.question;
+    $scope.roomName = 'Just enter message to become a member.'
+    $scope.avatar   = $state.params.avatar;
+    $scope.question = $state.params.question;
 
     PublicChat.selectRoom($scope.schoolID, publicQuestionKey, groupID);
 
@@ -700,6 +706,8 @@ settings cntrl
         txtInput[0].focus();
       });
     }
+    $scope.editorEnabled = false;
+
     $scope.typ = function (obj){
         return typeof obj === 'string';
     }
@@ -727,7 +735,6 @@ settings cntrl
             },true);
         }
     });
-    $scope.editorEnabled = false;
 
     $scope.edit = function (){
         $scope.editorEnabled = true;
@@ -735,7 +742,7 @@ settings cntrl
     
     $scope.saveEdit = function (question){
         if(question.amount <= 14){
-            alert('must be at least characters');
+            alert('must be at least 15 characters');
 
             return;
         }
