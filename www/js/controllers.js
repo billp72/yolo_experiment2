@@ -121,8 +121,8 @@ angular.module('mychat.controllers', [])
             !!user && 
             !!user.schoolemail &&
             !!user.displayname.value && 
-            !!user.schoolID /*&&
-            user.schoolID.domain === emailDomain(user.schoolemail)[0]*/
+            !!user.schoolID &&
+            user.schoolID.domain === emailDomain(user.schoolemail)[0] || user.schoolID.domain === 'gen.com'
              ) 
         {
         
@@ -146,10 +146,10 @@ angular.module('mychat.controllers', [])
                     $scope.modal1.hide();
                     $scope.modal1.remove();
                 }).then(function(userData){
-
+                
                     var school = Rooms.checkSchoolExist(stripDot.strip(user.schoolID.domain));
                     school.$loaded(function(data){
-
+                         
                         //if the school doesn't exist already, add it
                         if(data.length <= 0){
                             var room = ref.child("schools").child(stripDot.strip(user.schoolID.domain));
@@ -158,7 +158,6 @@ angular.module('mychat.controllers', [])
                                 schoolname: user.schoolID.value,
                                 schoolID: stripDot.strip(user.schoolID.domain),
                                 schoolEmail: user.schoolID.schoolContact,
-                                category: user.schoolID.category,
                                 ID: room.key()
                             },function(err){
                                 if(err) throw err;
@@ -1001,13 +1000,20 @@ settings cntrl
         var group = {'groupID':$scope.groupID, 'groupName':$scope.title1}
 
         Users.storeIDS(group, 'group');
-    
-        $scope.school = Rooms.getSchoolBySchoolID($scope.schoolID, $scope.groupID);
-            $scope.school.$loaded(function(data){
-                $scope.rooms = data;
-
-                $ionicLoading.hide();
+        
+        Rooms.getSchoolBySchoolID($scope.schoolID, $scope.groupID, $scope.lat, $scope.lon, function(datap){
+            if($scope.schoolID === 'gencom'){
+                    $scope.rooms = datap;
+                    $ionicLoading.hide();
+            }else{
+                datap.$loaded(function(data){
+                    $scope.rooms = data;
+                    $ionicLoading.hide();  
+                });
+            }
+        
         });
+           
         Users.updateUserGroup($scope.groupID, $scope.title1, $scope.userID);  
 
     });
@@ -1089,7 +1095,8 @@ settings cntrl
         }
     });
 
-    $scope.ask = function (quest){ 
+    $scope.ask = function (quest){
+          var params;
           key=''; 
          //!quest.group && !quest.group.groupID &&        
           if(quest.group.groupID === 'sel'){
@@ -1107,23 +1114,25 @@ settings cntrl
           $ionicLoading.show({
                 template: 'Sending...'
            });
+           params = {
+                schoolID: $scope.schoolID, 
+                question: quest.question.value, 
+                icon: 'ion-chatbubbles', 
+                questionID: null, 
+                displayName: $scope.displayName, 
+                email: $scope.email,
+                limit:parseInt(quest.limit, 10),
+                memberFlag: 'open', 
+                groupID: grpID, 
+                groupName: grpName,  
+                avatar: Users.getIDS('avatar') 
+           }
 
-                        Rooms.addQuestionsToSchool(
-                            {
-                                schoolID: $scope.schoolID, 
-                                question: quest.question.value, 
-                                icon: 'ion-chatbubbles', 
-                                questionID: null, 
-                                displayName: $scope.displayName, 
-                                email: $scope.email,
-                                limit:parseInt(quest.limit, 10),
-                                memberFlag: 'open', 
-                                groupID: grpID, 
-                                groupName: grpName,  
-                                avatar: Users.getIDS('avatar') 
-                            } 
-                        ).then(function(data){
-                             key = data.key();
+          
+                Rooms.addQuestionsToSchool(params, $scope.schoolID, $scope.lat, $scope.lon, function(data){
+
+                    //addSchool.then(function(data){
+                             key = data.key;
                              Users.addQuestionToUser({//no displayName property signifies creater of group
                                 schoolID:$scope.schoolID, 
                                 userID:$scope.userID, //becomes organizerUserID
@@ -1131,7 +1140,7 @@ settings cntrl
                                 icon:'ion-chatbubble',
                                 groupName: grpName,
                                 groupID: grpID, 
-                                publicQuestionKey: data.key(), 
+                                publicQuestionKey: key, 
                                 avatar:Users.getIDS('avatar')
                                 }
                             ).then(function(data){
@@ -1153,9 +1162,9 @@ settings cntrl
                                 $scope.data.search = '';
                                 $scope.user.question = '';
                             })
-                        });
+                        //});
                     
-
+                    });
                     /*if(grpID !== 'gen'){
                        var keys = Users.getGroupKeys().
                             then(function(data){

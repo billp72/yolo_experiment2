@@ -283,11 +283,13 @@ angular.module('mychat.services', ['firebase'])
 /** 
  * Simple Service which returns Rooms collection as Array from Salesforce & binds to the Scope in Controller
  */
-.factory('Rooms', ['$firebase', function ($firebase) {
+.factory('Rooms', ['$firebase', '$q', '$timeout', function ($firebase, $q, $timeout) {
     // Might use a resource here that returns a JSON array
     var ref = new Firebase(firebaseUrl+'/schools');
     var rooms = $firebase(ref).$asArray();
     var increment=0;
+    var deferred = $q.defer();
+    var returnStatement;
     //$firebase(ref.child('schools').child(selectedRoomID).child('chats')).$asArray();
     return {
         all: function () {
@@ -303,14 +305,44 @@ angular.module('mychat.services', ['firebase'])
                 fn(rm);
             });
         },
-        getSchoolBySchoolID: function(schoolID, groupID){
+        getSchoolBySchoolID: function(schoolID, groupID, lat, lon, cb){
             
-            return $firebase(ref.child(schoolID).child('questions').child(groupID)).$asArray();
+            if(schoolID === 'gencom'){
+                var groupArr = [];
+                groupArr.length = 0;
+                var referrence = ref.child(schoolID).child('questions').child(groupID);
+                var geoFire = new GeoFire(referrence);
+                var geoQuery = geoFire.query({
+                    center: [lat, lon],
+                    radius: 100.609 //kilometers
+                });
+                console.log("latitude "+lat, "longitude "+lon);
+                geoQuery.on('key_entered', function(key, location, distance) {
+                    //console.log("Bicycle shop " + key + " found at " + location + " (" + distance + " km away)");
+                   
+                    referrence.child(key).once('value', function(snapshot){
+                            groupArr.push(snapshot.val());
+                    });
+                 
+                });
+                cb(groupArr);
+            }else{
+                returnStatement = $firebase(ref.child(schoolID).child('questions').child(groupID)).$asArray();
+
+                $timeout( function(){
+        
+                    cb( returnStatement );
+
+                }, 100);
+                
+            }
+            
         },
         checkSchoolExist: function(schoolID){
             return $firebase(ref.child(schoolID).child('questions')).$asArray();
         },
-        addQuestionsToSchool: function(params){
+        addQuestionsToSchool: function(params, schoolID, lat, lon, cb){
+        
             var qdata = {
                 schoolID: params.schoolID,
                 question: params.question,
@@ -324,8 +356,33 @@ angular.module('mychat.services', ['firebase'])
                 memberFlag: params.memberFlag,
                 createdAt: Firebase.ServerValue.TIMESTAMP
             }
-        
-            return $firebase(ref.child(params.schoolID).child('questions').child(params.groupID)).$asArray().$add(qdata);
+            var newRef = ref.child(params.schoolID).child('questions').child(params.groupID).push();
+
+            if(params.schoolID === 'gencom'){
+                var refGeo = new Firebase(firebaseUrl+'/schools/'+params.schoolID+'/questions/'+params.groupID);
+                var geoFire = new GeoFire(refGeo);
+                var key = newRef.key();
+                console.log("latitude "+lat, "longitude "+lon);
+                    geoFire.set(key, [lat, lon]).then(function() {
+                        ref.child(params.schoolID).child('questions').child(params.groupID).child(key).update(qdata,
+                            function(error){
+                                if (error) {
+                                    console.log('Synchronization failed');
+                                } else {
+                                 
+                                    cb({key: newRef.key()});
+
+                                }
+                            });
+               
+                    }, function(error) {
+                        console.log("Error: " + error);
+                    });
+            }else{
+                ref.child(params.schoolID).child('questions').child(params.groupID).child(newRef.key()).set(qdata);
+
+                cb({key: newRef.key()});
+            }
            
         },
          retrieveSingleQuestion: function (schoolID, questionID) {

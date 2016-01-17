@@ -48,7 +48,19 @@ angular.module('mychat', ['ionic', 'ngIOS9UIWebViewPatch', 'firebase', 'angularM
                 }, 2000);
             }
         });
-            
+        var onSuccess = function(position) {
+                $rootScope.lat = position.coords.latitude;
+                $rootScope.lon = position.coords.longitude;
+                
+        };
+
+// onError Callback receives a PositionError object
+//
+        function onError(error) {
+                alert('code: '    + error.code    + '\n' +
+                      'message: ' + error.message + '\n');
+        }
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
         /*Google keys
          * key: AIzaSyAbXzuAUk1EICCdfpZhoA6-TleQrPWxJuI
          * Project Number: open-circles-1064/346007849782
