@@ -1131,7 +1131,6 @@ settings cntrl
           
                 Rooms.addQuestionsToSchool(params, $scope.schoolID, $scope.lat, $scope.lon, function(data){
 
-                    //addSchool.then(function(data){
                              key = data.key;
                              Users.addQuestionToUser({//no displayName property signifies creater of group
                                 schoolID:$scope.schoolID, 
@@ -1162,8 +1161,6 @@ settings cntrl
                                 $scope.data.search = '';
                                 $scope.user.question = '';
                             })
-                        //});
-                    
                     });
                     /*if(grpID !== 'gen'){
                        var keys = Users.getGroupKeys().
