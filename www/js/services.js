@@ -308,6 +308,7 @@ angular.module('mychat.services', ['firebase'])
         getSchoolBySchoolID: function(schoolID, groupID, lat, lon, cb){
             
             if(schoolID === 'gencom'){
+
                 var groupArr = [];
                 groupArr.length = 0;
                 var referrence = ref.child(schoolID).child('questions').child(groupID);
@@ -316,7 +317,7 @@ angular.module('mychat.services', ['firebase'])
                     center: [lat, lon],
                     radius: 100.609 //kilometers
                 });
-                console.log("latitude "+lat, "longitude "+lon);
+
                 geoQuery.on('key_entered', function(key, location, distance) {
                     //console.log("Bicycle shop " + key + " found at " + location + " (" + distance + " km away)");
                    
@@ -362,7 +363,7 @@ angular.module('mychat.services', ['firebase'])
                 var refGeo = new Firebase(firebaseUrl+'/schools/'+params.schoolID+'/questions/'+params.groupID);
                 var geoFire = new GeoFire(refGeo);
                 var key = newRef.key();
-                console.log("latitude "+lat, "longitude "+lon);
+                //console.log("latitude "+lat, "longitude "+lon);
                     geoFire.set(key, [lat, lon]).then(function() {
                         ref.child(params.schoolID).child('questions').child(params.groupID).child(key).update(qdata,
                             function(error){

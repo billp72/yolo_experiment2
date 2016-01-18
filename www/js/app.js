@@ -33,7 +33,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 angular.module('mychat', ['ionic', 'ngIOS9UIWebViewPatch', 'firebase', 'angularMoment', 'mychat.controllers', 'mychat.services', 'mychat.directives', 'mychat.autocomplete', 'mychat.filters'])
 
-    .run(function ($ionicPlatform, $rootScope, $location, Auth, $ionicLoading, $window, $state, $timeout, $ionicPopup, ConnectionCheck) {
+    .run(function ($ionicPlatform, $rootScope, $location, Auth, $ionicLoading, $window, $state, $timeout, $ionicPopup, ConnectionCheck, Users) {
 
     $ionicPlatform.ready(function () {
 
@@ -49,13 +49,16 @@ angular.module('mychat', ['ionic', 'ngIOS9UIWebViewPatch', 'firebase', 'angularM
             }
         });
         var onSuccess = function(position) {
-                $rootScope.lat = position.coords.latitude;
-                $rootScope.lon = position.coords.longitude;
+               
+                var location = {
+                    'latitude': position.coords.latitude,
+                    'longitude': position.coords.longitude
+                }
+                Users.storeIDS(location,'location');
                 
         };
 
 // onError Callback receives a PositionError object
-//
         function onError(error) {
                 alert('code: '    + error.code    + '\n' +
                       'message: ' + error.message + '\n');

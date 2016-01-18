@@ -962,6 +962,7 @@ settings cntrl
     if(!$scope.group){
         $scope.group = Users.getIDS('group');
     }
+   
     $scope.askQuestion = function(){
         $state.go('menu.tab.ask');
     }
@@ -977,6 +978,9 @@ settings cntrl
                 });
 
             });
+            console.log(Users.getIDS('location'));
+            $scope.location = Users.getIDS('location');
+
         }
     });
 
@@ -1000,8 +1004,8 @@ settings cntrl
         var group = {'groupID':$scope.groupID, 'groupName':$scope.title1}
 
         Users.storeIDS(group, 'group');
-        
-        Rooms.getSchoolBySchoolID($scope.schoolID, $scope.groupID, $scope.lat, $scope.lon, function(datap){
+        console.log($scope.location.latitude);
+        Rooms.getSchoolBySchoolID($scope.schoolID, $scope.groupID, $scope.location.latitude, $scope.location.longitude, function(datap){
             if($scope.schoolID === 'gencom'){
                     $scope.rooms = datap;
                     $ionicLoading.hide();
