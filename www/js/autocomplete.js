@@ -42,7 +42,7 @@ angular.module('mychat.autocomplete', ['firebase'])
 * get school data when mentor is filling out form
 */
 .factory('schoolFormData', ['$http', function ($http){
-    var data = $http.get('http://www.theopencircles.com/opencircles/schools.php');
+    var data = $http.get('http://www.beanbagapp.com/beanbag/schools.php');
 
     return {
         all: function(cb){

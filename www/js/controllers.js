@@ -146,10 +146,10 @@ angular.module('mychat.controllers', [])
                     $scope.modal1.hide();
                     $scope.modal1.remove();
                 }).then(function(userData){
-                
+
                     var school = Rooms.checkSchoolExist(stripDot.strip(user.schoolID.domain));
                     school.$loaded(function(data){
-                         
+
                         //if the school doesn't exist already, add it
                         if(data.length <= 0){
                             var room = ref.child("schools").child(stripDot.strip(user.schoolID.domain));
@@ -962,7 +962,6 @@ settings cntrl
     if(!$scope.group){
         $scope.group = Users.getIDS('group');
     }
-   
     $scope.askQuestion = function(){
         $state.go('menu.tab.ask');
     }
@@ -1017,7 +1016,6 @@ settings cntrl
             }
         
         });
-           
         Users.updateUserGroup($scope.groupID, $scope.title1, $scope.userID);  
 
     });

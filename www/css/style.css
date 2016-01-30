@@ -10,23 +10,33 @@
     font-family: Verdana, Geneva, sans-seriff;
     color: #fafafa;
     margin-top: 10px;
+
+    #787878
+    #6B6B6B
+    #80c28d
 }*/
 .custom-color-blue {
-    background: #2690ad !important;
+    background: #848A96 !important;
     border:none;
 }
+.custom-color-blue-send{
+    background-color: #6daa79 !important;
+}
 .tab-item.tab-item-active, .tab-item.active, .tab-item.activated {
-    color: #2690ad !important;
+    color: #848A96 !important;
 }
 .item-icon-left.opaque{
     background: rgba(255, 255, 255, 1);
 }
 .button.button-clear.button-primary.text{
-    color: #2690ad;
+    color: #848A96;
 }
 .button.button-full.button-light.button-white.txt{
-    color: #2690ad;
+    color: #848A96;
     font-size: 20px;
+}
+.item-complex .item-content{
+    background: transparent !important;
 }
 .avatar {
     float: left;
@@ -99,7 +109,7 @@ div.item-select {
     font-weight: 900;
 }
 .special-text{
-    color: #2690ad;
+    color: #3E4758;
     background: #DCDCDC;
 }
 .transparent{
@@ -137,7 +147,10 @@ p.space{
     margin: 10px 0 10px 0;
 }
 .advisors{
-    color:#2690ad;
+    color:#a8a8a8;
+}
+.special-text.item.item-complex.item-right-editable{
+    background: grey;
 }
 pre{
     font-family: arial sans-seriff;

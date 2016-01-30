@@ -17,7 +17,7 @@ angular.module('mychat.services', ['firebase'])
     var processEmailRequest = function (data){
         $http({
             method: 'POST',
-            url: 'http://www.theopencircles.com/opencircles/emailToApplicant.php', 
+            url: 'http://www.beanbagapp.com/beanbag/emailToApplicant.php', 
             data: data
         })
         .success(function(data, status, headers, config)
@@ -727,7 +727,7 @@ angular.module('mychat.services', ['firebase'])
     function ConnectionCheck ($http, $timeout, $firebase){
 
        var ref = new Firebase(firebaseUrl);
-       var base_url = 'http://www.theopencircles.com/opencircles/loadImage.jpg';
+       var base_url = 'http://www.beanbagapp.com/beanbag/loadImage.jpg';
        var timeOutInteger = null;
 
        var net_callback = function (cb){

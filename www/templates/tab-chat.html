@@ -4,7 +4,7 @@
         </ion-nav-title>
     <ion-content has-bouncing="true" class="has-header has-footer" delegate-handle="userMessageScroll">
         <ion-list ng-show="roomName">
-            <ion-item class="special-text">
+            <ion-item class="special-text" style="background:#EFFAF2">
                 <div class="avatar"><img width="50" ng-src="{{avatar}}"></div>
                 <div ng-hide="editorEnabled">
                     <pre ng-hide="typ(question)">{{question.value}}</pre>
@@ -53,7 +53,7 @@
         <label class="item-input-wrapper nobgcolor">
             <input type="text" ng-model="IM.textMessage" placeholder="Respond to group...">
         </label>
-            <button ng-click="sendMessage(IM.textMessage)" class="button button-small button-balanced custom-color-blue">
+            <button ng-click="sendMessage(IM.textMessage)" class="button button-small button-balanced custom-color-blue-send">
                 Send
         </button>
     </ion-footer-bar> 
